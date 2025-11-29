@@ -1,5 +1,6 @@
-# Переменные окружения
+# Environment
 .env
+*.env.local
 
 # Python
 __pycache__/
@@ -27,6 +28,7 @@ wheels/
 venv/
 ENV/
 env/
+.venv/
 
 # IDE
 .vscode/
@@ -38,3 +40,11 @@ env/
 # OS
 .DS_Store
 Thumbs.db
+
+# Project specific
+data/schemas/*.json
+!data/schemas/.gitkeep
+
+# Logs
+*.log
+logs/

@@ -1,2 +1,22 @@
-python-telegram-bot==20.7
+# Database connectors
+psycopg2-binary==2.9.9
+PyMySQL==1.1.0
+SQLAlchemy==2.0.23
+
+# LLM providers
+requests>=2.31.0
+
+# OpenAI (optional)
+openai==1.6.1
+
+# CLI and formatting
+click==8.1.7
+rich==13.7.0
+tabulate==0.9.0
+
+# Environment
 python-dotenv==1.0.0
+
+# Utilities
+pydantic==2.5.2
+urllib3>=2.0.0
