@@ -11,25 +11,34 @@ AI-powered text-to-SQL платформа с поддержкой GigaChat дл�
 - **Безопасность**: Проверка запросов на опасные операции
 - **CLI интерфейс**: Удобная работа через командную строку
 
-## Быстрый старт
+## Пошаговая инструкция запуска
 
-### 1. Установка
+### Шаг 1. Клонировать репозиторий
 
 ```bash
-# Клонирование репозитория
-git clone <repo-url>
-cd easySQL
+git clone https://github.com/TymanlL/sprint3.git
+cd sprint3
+```
 
-# Создание виртуального окружения
+### Шаг 2. Создать виртуальное окружение
+
+```bash
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# или: venv\Scripts\activate  # Windows
 
-# Установка зависимостей
+# Linux/Mac:
+source venv/bin/activate
+
+# Windows:
+venv\Scripts\activate
+```
+
+### Шаг 3. Установить зависимости
+
+```bash
 pip install -r requirements.txt
 ```
 
-### 2. Настройка GigaChat
+### Шаг 4. Настроить GigaChat
 
 1. Получите credentials на [developers.sber.ru](https://developers.sber.ru/portal/products/gigachat)
 2. Создайте файл `.env`:
@@ -38,31 +47,69 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-3. Добавьте ваши credentials в `.env`:
+3. Отредактируйте `.env`, добавив ваши credentials:
 
 ```env
-GIGACHAT_CREDENTIALS=your-base64-credentials-here
+# GigaChat API
+GIGACHAT_CREDENTIALS=ваш-base64-ключ-из-личного-кабинета
+GIGACHAT_SCOPE=GIGACHAT_API_PERS
+GIGACHAT_MODEL=GigaChat
+
+# База данных (замените на свои данные)
 DATABASE_URL=postgresql://user:password@localhost:5432/mydb
 ```
 
-### 3. Подключение к базе данных
+### Шаг 5. Проверить подключение к GigaChat
 
 ```bash
-# Подключение и извлечение схемы
-python main.py connect "postgresql://user:pass@localhost:5432/mydb" --name "My Database"
+python test_gigachat.py
 ```
 
-### 4. Начало работы
+Ожидаемый результат:
+```
+Testing GigaChat connection...
+[OK] Authentication successful!
+[OK] GigaChat is working!
+```
+
+### Шаг 6. Подключить вашу базу данных
+
+```bash
+# PostgreSQL
+python main.py connect "postgresql://user:pass@localhost:5432/mydb" --name "My Database"
+
+# MySQL
+python main.py connect "mysql://user:pass@localhost:3306/mydb" --name "My MySQL"
+```
+
+После подключения вы увидите:
+- Список таблиц в БД
+- Context ID для дальнейшей работы
+
+### Шаг 7. Начать работу с базой
 
 ```bash
 # Посмотреть сохранённые схемы
 python main.py list
 
-# Начать чат с базой данных
+# Запустить чат (только генерация SQL)
 python main.py chat <context_id>
 
-# С автоматическим выполнением запросов
-python main.py chat <context_id> --execute --db-url "postgresql://user:pass@localhost:5432/mydb"
+# Запустить чат с автоматическим выполнением запросов
+python main.py chat <context_id> --execute
+```
+
+### Шаг 8. Примеры запросов в чате
+
+```
+You: Покажи все таблицы
+You: Выведи топ-10 пользователей по дате регистрации
+You: Сколько заказов было за последний месяц?
+You: Найди клиентов без заказов
+You: /tables    — список таблиц
+You: /explain   — объяснить последний SQL
+You: /execute   — выполнить последний SQL
+You: /quit      — выход
 ```
 
 ## Команды CLI
